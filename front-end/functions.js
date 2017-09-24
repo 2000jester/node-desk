@@ -133,11 +133,11 @@ function connect(){
                                     $("#"+res[i].id).find("[selected]").removeAttr("selected")
                                     $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
                                     $("#staff_"+res[i].id).addClass("updated")
-                                    setTimeout(function(){
-                                        $("#staff_"+res[i].id).removeClass("updated");
-                                    }, 3000);
                                 }
                             }
+                            setTimeout(function(){
+                                $(".updated").removeClass("updated");
+                            }, 3000);
                         }
                     })
                     validate();
