@@ -128,11 +128,18 @@ function connect(){
                         url: url+"/getStaff",
                         method: "GET",
                         success: function(res){
+                            var firstInstance = true;
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[selected]").removeAttr("selected")
                                     $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
                                     $("#staff_"+res[i].id).addClass("updated")
+                                    if(firstInstance == true){
+                                        $("html, body").animate({
+                                            scrollTop: $("#staff_"+res[i].id).offset().top
+                                        }, 1000);
+                                    }
+                                    firstInstance = false;
                                 }
                             }
                             setTimeout(function(){
