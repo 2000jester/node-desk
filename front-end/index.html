@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #row-template{
+                display: none;
+            }
+            #desk_code_select{
+                display: none;
+            }
+            .desk_code_option{
+                display: none;
+            }
+            #submit{
+                background-color:lightgrey;
+            }
+            #submit:hover{
+                background-color:darkgrey;
+            }
+            #submit:active{
+                background-color:grey;
+                color: white;
+            }
+            .updated{
+                background-color:limegreen;
+                color: white,
+            }
+        </style>
+        <script src="lodash.js"></script>
+        <script
+            src="http://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <script src="functions.js"></script>
+        <title>Desk Updater</title>
+    </head>
+    <body onLoad="connect()">
+        <table id="desks">
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Desk ID</th>
+            </tr>
+            <tr id="row-template">
+                <td class="name"></td>
+                <td class="id"></td>
+                <td class="desk-id"></td>
+                <td class="for_select"></td>
+            </tr>
+        </table>
+        <div id="div1"></div>
+        <select id="desk_code_select"></select>
+        <option class="desk_code_option"></option>
+        <button id="submit" onClick="submitToDataBase();">Submit</button>
+    </body>
+</html>
