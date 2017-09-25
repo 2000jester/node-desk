@@ -101,13 +101,12 @@ function validate(results, desks, uuid, req){
         .then(qResults => {
             //console.log(qResults)
             io.emit('change', uuid);
-            console.log("i reached end of emit")
+
             line()
         })
         .catch(err => {
             console.log(err)
         });
-        console.log("i reached end of validate")
 };
 function getDesks(desks,uuid, req){
     mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
@@ -118,7 +117,6 @@ function getDesks(desks,uuid, req){
             res.end();
             return;
         }
-        console.log("i reached end of get desks")
         validate(results, desks, uuid, req);
     });
 };
@@ -152,7 +150,6 @@ app.post("/sendDataToDataBase", function(req,res){
             line();
         }
     }
-    console.log("i reached end of ajax")
     res.end();
 });
 app.post("/connect",function(req, res){
