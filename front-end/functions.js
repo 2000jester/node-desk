@@ -63,7 +63,6 @@ function getValuesToSubmit(){
             new_desk_id: $("#staff_"+staff[i].id+" select").val(),
         });
     }
-    // console.log(valuesToSubmit);
     return valuesToSubmit;
 }
 
@@ -123,8 +122,6 @@ function connect(){
             socket.on('change', function(data){
                 if(data != uuid){
                     alert("A change has been made by another user");
-                    // staff = [];
-                    // desks = [];
                     $.ajax({
                         url: url+"/getStaff",
                         method: "GET",
