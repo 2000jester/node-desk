@@ -142,7 +142,7 @@ app.post("/sendDataToDataBase", function(req,res){
         });
     }
     for(var i=1;i<requests.length;i++){
-        if(requests[i].offenses > 10 && blocked.indexOf(ip) == -1){
+        if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
             blocked.push(ip)
             console.log("IP: "+ip+" has been blocked")
             line();
