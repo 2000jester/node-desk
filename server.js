@@ -63,6 +63,9 @@ function validate(results, desks, uuid, req){
     for(var i = 0; i<results.length;i++){
         results[i] = parseInt(results[i].id)
     }
+    if(typeof desks === 'undefined'){
+        console.trace(desks)
+    }
     for(var i=0;i<desks.length;i++){
         if(results.indexOf(parseInt(desks[i].new_desk_id)) == -1){
             console.log("ERROR, did not update")
