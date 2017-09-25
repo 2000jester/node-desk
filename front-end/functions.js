@@ -4,49 +4,71 @@ var username = "User"
 var uuid = '';
 var desks = [];
 var staff = [];
+var changed = [];
 function sortDesks(){
     desks = _.sortBy(desks, [function(o){return parseInt(o.desk_code.substring(5),10);}])
 }
-function updateList(target){
-    console.log(target.value)
-    for(var i = 0; i<staff.length;i++){
-        if(staff[i].id == target.id){
-            if(staff[i].desk_id == target.value){
-                //remove if is on list
-            } else if(staff[i].desk_id == target.value){
-                var data = getValuesToSubmit();
-                var changes = []
-                for(var i = 0;i<staff.length;i++){
-                    if(staff[i].desk_id != data[i].new_desk_id){
-                        changes.push({
-                            staff: data[i].staff_id,
-                            name: staff[i].name,
-                            old_desk: staff[i].desk_id,
-                            new_desk: data[i].new_desk_id,
-                        });
-                    }
-                }
-                if(changes.length > 0){
-                    var $li = $("#li-template").clone();
-                    for(var i = 0;i<changes.length;i++){
-                        var old_desk_code = null;
-                        var new_desk_code = null;
-                        for(var j = 0; j<desks.length;j++){
-                            if(desks[j].id == changes[i].old_desk){
-                                old_desk_code = desks[j].desk_code;
-                            }
-                            if(desks[j].id == changes[i].new_desk){
-                                new_desk_code = desks[j].desk_code;
-                            }
-                        }
-                        $li.removeAttr('id')
-                        $li.html(changes[i].name + " : "+old_desk_code+" -> "+new_desk_code);
-                        $li.appendTo("#list")
-                    }
-                }
-            }
+function addToList(obj){
+    changed.push(obj);
+}
+function removeFromList(id){
+    for(var i = 0; i<changed.length; i++){
+        if(changed[i].id == id){
+            changed.splice(i,1);
         }
     }
+}
+function prepareOBJ(target){
+    var data = getValuesToSubmit();
+    var currentChange = {
+        id: target.id,
+        name: null,
+        old_desk_id: null,
+        new_desk_id: null,
+        old_desk_code: null,
+        new_desk_code: null,
+    }
+    for(var i = 0; i<staff.length;i++){
+        if(staff[i].id == target.id){
+            currentChange.old_desk_id = staff[i].desk_id
+            currentChange.new_desk_id = data[i].new_desk_id
+            currentChange.name = staff[i].name
+        }
+    }
+    for(var i = 0;i<desks.length;i++){
+        if(desks[i].id == currentChange.old_desk_id){
+            currentChange.old_desk_code = desks[i].desk_code 
+        } else if(desks[i].id == currentChange.new_desk_id){
+            currentChange.new_desk_code = desks[i].desk_code 
+        }
+    }
+    return currentChange
+}
+function drawList(){
+    $("#list").empty();
+    for(var i = 0;i<changed.length;i++){
+        var $li = $("#li-template").clone();
+        $li.removeAttr('id')
+        $li.html(changed[i].name + " : "+changed[i].old_desk_code+" -> "+changed[i].new_desk_code);
+        $li.appendTo("#list")
+    }
+}
+function updateList(target){
+    var obj = prepareOBJ(target);
+    if(changed.length > 0){
+        if(_.findIndex(changed, {id: target.id}) > -1){
+            if(obj.new_desk_id != obj.old_desk_id){
+                return
+            } else if(obj.new_desk_id == obj.old_desk_id){
+                removeFromList(target.id)
+            }
+        } else {
+            addToList(obj)
+        }
+    } else {
+        addToList(obj)
+    }
+    drawList();
 }
 function validate(){
     $("#submit").removeAttr("disabled");
