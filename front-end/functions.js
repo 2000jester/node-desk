@@ -131,12 +131,12 @@ function connect(){
                         method: "GET",
                         success: function(res){
                             var firstInstance = true;
-                            console.log(res)
+                            // console.log(res)
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[selected]").removeAttr("selected")
-                                    console.log(res[i])
-                                    setTimeout(function(res[i]){
+                                    setTimeout(function(){
+                                        console.log(res)
                                         $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
                                     }, 2);
                                     $("#staff_"+res[i].id).addClass("updated")
