@@ -68,7 +68,6 @@ function getValuesToSubmit(){
 }
 
 function submitToDataBase(){
-    console.log("i got called")
     var valuesToSubmit = getValuesToSubmit();
     if(validate()){
         $.ajax({
@@ -132,7 +131,6 @@ function connect(){
                         success: function(res){
                             var firstInstance = true;
                             for(var i = 0;i<res.length;i++){
-                                console.log(i)
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
                                     $("#staff_"+res[i].id).addClass("updated")
