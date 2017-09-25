@@ -38,6 +38,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 line();
 var connections = [];
 var blocked = [];
+fs.readFile("blocked.txt", "utf8",function(error,data){
+    if(error){
+        return console.log(error);
+    }
+    console.log(data)
+});
 var requests = ["XXX"];
 var mysqlConnection = mysql.createConnection({
     host        : "localhost",
@@ -126,6 +132,8 @@ app.post("/sendDataToDataBase", function(req,res){
             offenses: 0,
         });
     }
+
+    /*
     for(var i=1;i<requests.length;i++){
         if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
             blocked.push(ip)
@@ -138,7 +146,7 @@ app.post("/sendDataToDataBase", function(req,res){
             console.log("IP: "+ip+" has been blocked")
             line();
         }
-    }
+    }*/
     res.end();
 });
 app.post("/connect",function(req, res){
