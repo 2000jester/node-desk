@@ -132,6 +132,7 @@ function connect(){
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").prop("selected",true);
                                     $("#"+res[i].id).find("[value!='"+res[i].desk_id+"']").prop("selected",false);
+                                    $('select').selectmenu('refresh', true);
                                     $("#staff_"+res[i].id).addClass("updated")
                                     if(first == true){
                                         $("html, body").animate({
