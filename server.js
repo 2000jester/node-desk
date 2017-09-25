@@ -44,21 +44,6 @@ var mysqlConnection = mysql.createConnection({
     password    : "admin",
     database    : "desk",
 });
-/*// same
-function(param1, param2) {}
-(param1, param2) => {}
-// same
-function(param1) {}
-param1 => {}
-(param1) => {}
-// same
-function(param1) {
-    return param1 * 5
-}
-(param1) => {
-    return param1 * 5
-}
-param1 => param1 * 5*/
 function validate(results, desks, uuid, req){
     for(var i = 0; i<results.length;i++){
         results[i] = parseInt(results[i].id)
@@ -99,7 +84,6 @@ function validate(results, desks, uuid, req){
     }
     Promise.all(promises)
         .then(qResults => {
-            //console.log(qResults)
             io.emit('change', uuid);
         })
         .catch(err => {

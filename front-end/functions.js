@@ -5,7 +5,6 @@ var uuid = '';
 var desks = [];
 var staff = [];
 function sortDesks(){
-    //console.log(desks)
     desks = _.sortBy(desks, [function(o){return parseInt(o.desk_code.substring(5),10);}])
 }
 function validate(){
@@ -65,7 +64,6 @@ function getValuesToSubmit(){
     }
     return valuesToSubmit;
 }
-
 function submitToDataBase(){
     var valuesToSubmit = getValuesToSubmit();
     if(validate()){
@@ -89,7 +87,6 @@ function getDesks(){
             for(var currentDesk of res){
                 desks.push(currentDesk);
             }
-            //console.log(desks)
             display();
         }
     });
@@ -102,7 +99,6 @@ function getStaff(){
             for(var currentStaff of res){
                 staff.push(currentStaff);
             }
-            //console.log(staff)
             getDesks();
         }
     });
@@ -126,7 +122,6 @@ function connect(){
                         url: url+"/getStaff",
                         method: "GET",
                         success: function(res){
-                            console.log(res)
                             var first = true;
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).val() != res[i].desk_id){
@@ -140,9 +135,6 @@ function connect(){
                                     }
                                 }
                             }
-                            // setTimeout(function(){
-                            //     $(".updated").removeClass("updated");
-                            // }, 3000);
                             $(".updated").hover(function(){
                                 $(".updated").removeClass("updated");
                             })
