@@ -63,10 +63,12 @@ function getValuesToSubmit(){
             new_desk_id: $("#staff_"+staff[i].id+" select").val(),
         });
     }
-    return valuesToSubmit;    
+    console.log(valuesToSubmit);
+    return valuesToSubmit;
 }
 
 function submitToDataBase(){
+    console.log("i got called")
     var valuesToSubmit = getValuesToSubmit();
     if(validate()){
         $.ajax({
