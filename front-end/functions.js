@@ -139,6 +139,7 @@ function submitToDataBase(){
             },
             success: function(){
                 changed = []
+                drawList()
             }
         });
     }
