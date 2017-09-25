@@ -1,6 +1,7 @@
 function line(){
     console.log("------------------------------------------------------------------");
 }
+line();
 function getIP(req){
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     ip = ip.split("");

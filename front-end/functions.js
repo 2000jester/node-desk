@@ -7,6 +7,10 @@ var staff = [];
 function sortDesks(){
     desks = _.sortBy(desks, [function(o){return parseInt(o.desk_code.substring(5),10);}])
 }
+function updateList(){
+    var data = getValuesToSubmit();
+    console.log(data)
+}
 function validate(){
     $("#submit").removeAttr("disabled");
     $('select').css('background', 'white');
@@ -158,6 +162,7 @@ window.onbeforeunload = function(event){
 
 $(function(){
     $('body').on('change', 'select', function(){
+        updateList();
         validate();
     });
 });
