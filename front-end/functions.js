@@ -135,7 +135,7 @@ function connect(){
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[selected]").removeAttr("selected")
-                                    setTimeout(function(){
+                                    setTimeout(function(i){
                                         console.log(res)
                                         $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
                                     }, 2);
