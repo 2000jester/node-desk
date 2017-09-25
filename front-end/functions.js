@@ -131,7 +131,7 @@ function connect(){
                         method: "GET",
                         success: function(res){
                             var firstInstance = true;
-                            console,log(res)
+                            console.log(res)
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[selected]").removeAttr("selected")
