@@ -7,9 +7,46 @@ var staff = [];
 function sortDesks(){
     desks = _.sortBy(desks, [function(o){return parseInt(o.desk_code.substring(5),10);}])
 }
-function updateList(){
-    var data = getValuesToSubmit();
-    console.log(data)
+function updateList(target){
+    console.log(target.value)
+    for(var i = 0; i<staff.length;i++){
+        if(staff[i].id == target.id){
+            if(staff[i].desk_id == target.value){
+                //remove if is on list
+            } else if(staff[i].desk_id == target.value){
+                var data = getValuesToSubmit();
+                var changes = []
+                for(var i = 0;i<staff.length;i++){
+                    if(staff[i].desk_id != data[i].new_desk_id){
+                        changes.push({
+                            staff: data[i].staff_id,
+                            name: staff[i].name,
+                            old_desk: staff[i].desk_id,
+                            new_desk: data[i].new_desk_id,
+                        });
+                    }
+                }
+                if(changes.length > 0){
+                    var $li = $("#li-template").clone();
+                    for(var i = 0;i<changes.length;i++){
+                        var old_desk_code = null;
+                        var new_desk_code = null;
+                        for(var j = 0; j<desks.length;j++){
+                            if(desks[j].id == changes[i].old_desk){
+                                old_desk_code = desks[j].desk_code;
+                            }
+                            if(desks[j].id == changes[i].new_desk){
+                                new_desk_code = desks[j].desk_code;
+                            }
+                        }
+                        $li.removeAttr('id')
+                        $li.html(changes[i].name + " : "+old_desk_code+" -> "+new_desk_code);
+                        $li.appendTo("#list")
+                    }
+                }
+            }
+        }
+    }
 }
 function validate(){
     $("#submit").removeAttr("disabled");
@@ -161,8 +198,8 @@ window.onbeforeunload = function(event){
 }
 
 $(function(){
-    $('body').on('change', 'select', function(){
-        updateList();
+    $('body').on('change', 'select', function(event){
+        updateList(event.target);
         validate();
     });
 });
