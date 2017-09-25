@@ -138,6 +138,7 @@ function submitToDataBase(){
                 uuid: uuid,
             },
             success: function(){
+                changed = []
             }
         });
     }
