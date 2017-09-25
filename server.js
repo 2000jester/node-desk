@@ -101,8 +101,6 @@ function validate(results, desks, uuid, req){
         .then(qResults => {
             //console.log(qResults)
             io.emit('change', uuid);
-
-            line()
         })
         .catch(err => {
             console.log(err)
