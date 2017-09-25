@@ -139,9 +139,12 @@ function connect(){
                                     }
                                 }
                             }
-                            setTimeout(function(){
+                            // setTimeout(function(){
+                            //     $(".updated").removeClass("updated");
+                            // }, 3000);
+                            $(".updated").hover(function(){
                                 $(".updated").removeClass("updated");
-                            }, 3000);
+                            })
                         }
                     });
                 }
