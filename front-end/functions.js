@@ -124,8 +124,8 @@ function connect(){
             socket.on('change', function(data){
                 if(data != uuid){
                     alert("A change has been made by another user");
-                    staff = [];
-                    desks = [];
+                    // staff = [];
+                    // desks = [];
                     $.ajax({
                         url: url+"/getStaff",
                         method: "GET",
