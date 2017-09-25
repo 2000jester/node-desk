@@ -136,7 +136,7 @@ function connect(){
                                 if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
                                     $("#"+res[i].id).find("[selected]").removeAttr("selected")
                                     setTimeout(function(i){
-                                        console.log(i, " - "+res)
+                                        console.log(i,res)
                                         $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
                                     }, 2);
                                     $("#staff_"+res[i].id).addClass("updated")
