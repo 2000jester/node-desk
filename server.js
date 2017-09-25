@@ -102,6 +102,7 @@ function validate(results, desks, uuid, req){
             //console.log(qResults)
             io.emit('change', uuid);
             console.log("i reached end of emit")
+            line()
         })
         .catch(err => {
             console.log(err)
