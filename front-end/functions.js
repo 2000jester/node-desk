@@ -129,7 +129,7 @@ function connect(){
                             console.log(res)
                             var first = true;
                             for(var i = 0;i<res.length;i++){
-                                if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
+                                if($("#"+res[i].id).val() != res[i].desk_id){
                                     $("#"+res[i].id).val(res[i].desk_id);
                                     //$("#"+res[i].id).find("[value='"+res[i].desk_id+"']").prop("selected",true);
                                     //$("#"+res[i].id).find("[value!='"+res[i].desk_id+"']").prop("selected",false);
