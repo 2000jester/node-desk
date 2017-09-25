@@ -129,6 +129,12 @@ app.post("/sendDataToDataBase", function(req,res){
     for(var i=1;i<requests.length;i++){
         if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
             blocked.push(ip)
+            fs.writeFile("blocked.txt", blocked, function(error){
+                if(error){
+                    return console.log(error)
+                }
+                console.log("file written")
+            })
             console.log("IP: "+ip+" has been blocked")
             line();
         }
