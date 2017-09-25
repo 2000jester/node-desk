@@ -131,8 +131,6 @@ function connect(){
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).val() != res[i].desk_id){
                                     $("#"+res[i].id).val(res[i].desk_id);
-                                    //$("#"+res[i].id).find("[value='"+res[i].desk_id+"']").prop("selected",true);
-                                    //$("#"+res[i].id).find("[value!='"+res[i].desk_id+"']").prop("selected",false);
                                     $("#staff_"+res[i].id).addClass("updated")
                                     if(first == true){
                                         $("html, body").animate({
