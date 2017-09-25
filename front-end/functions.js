@@ -132,21 +132,22 @@ function connect(){
                         success: function(res){
                             var firstInstance = true;
                             for(var i = 0;i<res.length;i++){
-                                if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
-                                    $("#"+res[i].id).find("[selected]").removeAttr("selected")
-                                    setTimeout(function(){
-                                        console.log(i)
-                                        console.log(res)
-                                        $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
-                                    }, 2);
-                                    $("#staff_"+res[i].id).addClass("updated")
-                                    if(firstInstance == true){
-                                        $("html, body").animate({
-                                            scrollTop: $("#staff_"+res[i].id).offset().top
-                                        }, 1000);
-                                    }
-                                    firstInstance = false;
-                                }
+                                // if($("#"+res[i].id).find("[selected]").val() != res[i].desk_id){
+                                //     $("#"+res[i].id).find("[selected]").removeAttr("selected")
+                                //     setTimeout(function(){
+                                //         console.log(i)
+                                //         console.log(res)
+                                //         $("#"+res[i].id).find("[value='"+res[i].desk_id+"']").attr("selected","selected");
+                                //     }, 2);
+                                //     $("#staff_"+res[i].id).addClass("updated")
+                                //     if(firstInstance == true){
+                                //         $("html, body").animate({
+                                //             scrollTop: $("#staff_"+res[i].id).offset().top
+                                //         }, 1000);
+                                //     }
+                                //     firstInstance = false;
+                                // }
+                                console.log(i)
                             }
                             setTimeout(function(){
                                 $(".updated").removeClass("updated");
