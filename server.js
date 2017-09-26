@@ -27,10 +27,10 @@ const fs = require('fs');
 // console.log('FS successful');
 const _ = require("lodash");
 // console.log('Lodash successful');
-const blocked = require("blocked");
+const blockednpm = require("blocked");
 console.log("Server Initialised Correctly");
 server.listen(3000);
-blocked(function(ms){
+blockednpm(function(ms){
     console.log('BLOCKED FOR %sms', ms | 0);
 });
 app.use(function (req, res, next) {
