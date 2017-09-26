@@ -149,10 +149,10 @@ app.post("/sendDataToDataBase", function(req,res){
         }
     }
     var stringToBeWritten = "";
-    for(var i = 1;i<blocked.length;i++){
+    for(var i = 0;i<blocked.length;i++){
         stringToBeWritten = stringToBeWritten + blocked[i] + ","
     }
-    _.trimEnd(stringToBeWritten,",");
+    //_.trimEnd(stringToBeWritten,",");
     fs.writeFile("blocked.txt", stringToBeWritten, function(error){
         if(error){
             return console.log(error)
