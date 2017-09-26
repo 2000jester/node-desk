@@ -25,6 +25,8 @@ const mysql = require('mysql');
 console.log('MYSQL successful')
 const fs = require('fs');
 console.log('FS successful');
+const _ = require("lodash");
+console.log('Lodash successful');
 server.listen(3000);
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -150,12 +152,7 @@ app.post("/sendDataToDataBase", function(req,res){
     for(var i = 0;i<blocked.length;i++){
         stringToBeWritten = stringToBeWritten + blocked[i] + ","
     }
-    var newStringToBeWritten = "";
-    if(stringToBeWritten.length>0){
-        for(var i = 0; i<stringToBeWritten.length-1;i++){
-            newStringToBeWritten = newStringToBeWritten + stringToBeWritten[i]
-        }
-    }
+    
     fs.writeFile("blocked.txt", stringToBeWritten, function(error){
         if(error){
             return console.log(error)
