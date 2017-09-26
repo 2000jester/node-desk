@@ -70,8 +70,10 @@ function updateList(target){
     }
     drawList();
 }
-function validate(){
-    $("#submit").removeAttr("disabled");
+function validate(bool){
+    if(bool == false){
+        $("#submit").prop("disabled", false);
+    }
     $('select').css('background', 'white');
     $('select').css('color', 'black');
     var data = getValuesToSubmit();
@@ -87,7 +89,7 @@ function validate(){
         }
     }
     if(errorCaught == true){
-        $("#submit").attr("disabled", "disabled");
+        $("#submit").prop("disabled", true);
         return false;
     }
     return true;
@@ -128,9 +130,9 @@ function getValuesToSubmit(){
     return valuesToSubmit;
 }
 function submitToDataBase(){
-    $("#submit").attr("disabled", "disabled");
+    $("#submit").prop("disabled", true);
     var valuesToSubmit = getValuesToSubmit();
-    if(validate()){
+    if(validate(true)){
         $.ajax({
             url: url+"/sendDataToDataBase",
             method: "POST",
@@ -142,7 +144,7 @@ function submitToDataBase(){
                 changed = []
                 drawList()
                 socket.on("enableSubmit",function(){
-                    $("#submit").removeAttr("disabled");
+                    console.log("enabled")
                 });
                 /*$("html, body").animate({
                     scrollTop: $("#staff_"+49).offset().top
@@ -232,6 +234,6 @@ window.onbeforeunload = function(event){
 $(function(){
     $('body').on('change', 'select', function(event){
         updateList(event.target);
-        validate();
+        validate(false);
     });
 });
