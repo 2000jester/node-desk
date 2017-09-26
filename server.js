@@ -47,6 +47,7 @@ fs.readFile("blocked.txt", "utf8",function(error,data){
     for(var i = 0;i<blocked.length;i++){
         console.log(blocked[i])
     }
+    line();
 });
 var requests = ["XXX"];
 var mysqlConnection = mysql.createConnection({
@@ -136,21 +137,22 @@ app.post("/sendDataToDataBase", function(req,res){
             offenses: 0,
         });
     }
-
-    /*
     for(var i=1;i<requests.length;i++){
         if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
             blocked.push(ip)
-            fs.writeFile("blocked.txt", blocked, function(error){
-                if(error){
-                    return console.log(error)
-                }
-                console.log("file written")
-            })
             console.log("IP: "+ip+" has been blocked")
             line();
         }
-    }*/
+    }
+    var stringToBeWritten = "";
+    for(var i = 0;i<blocked.length;i++){
+        stringToBeWritten = stringToBeWritten + blocked[i] + ","
+    }
+    fs.writeFile("blocked.txt", stringToBeWritten, function(error){
+        if(error){
+            return console.log(error)
+        }
+    })
     res.end();
 });
 app.post("/connect",function(req, res){
