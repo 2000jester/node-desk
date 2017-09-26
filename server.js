@@ -130,12 +130,14 @@ app.post("/sendDataToDataBase", function(req,res){
         if(requests[i].ip == ip){
             if(Date.now()-requests[i].last<1000){
                 requests[i].offenses++
+                console.log("log 2")
             }
             requests[i].last = Date.now()
             needPush = false;
         }
     }
     if(needPush == true){
+        console.log("log 3")
         requests.push({
             ip: ip,
             last: Date.now(),
