@@ -198,6 +198,7 @@ function connect(){
             socket = io(url);
             socket.on('change', function(data){
                 if(data != uuid){
+                    changed = [];
                     // alert("A change has been made by another user");
                     $.ajax({
                         url: url+"/getStaff",
