@@ -70,8 +70,8 @@ function updateList(target){
     }
     drawList();
 }
-function validate(bool){
-    if(bool == false){
+function validate(removeDisable){
+    if(removeDisable == true){
         $("#submit").prop("disabled", false);
     }
     $('select').css('background', 'white');
@@ -132,7 +132,7 @@ function getValuesToSubmit(){
 function submitToDataBase(){
     $("#submit").prop("disabled", true);
     var valuesToSubmit = getValuesToSubmit();
-    if(validate(true)){
+    if(validate(false)){
         $.ajax({
             url: url+"/sendDataToDataBase",
             method: "POST",
@@ -234,6 +234,6 @@ window.onbeforeunload = function(event){
 $(function(){
     $('body').on('change', 'select', function(event){
         updateList(event.target);
-        validate(false);
+        validate(true);
     });
 });
