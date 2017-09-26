@@ -119,7 +119,6 @@ function getDesks(desks,uuid, req){
     });
 };
 app.post("/sendDataToDataBase", function(req,res){
-    console.log("log")
     var data = req.body
     var uuid = data.uuid;
     data = data.values;
@@ -130,14 +129,12 @@ app.post("/sendDataToDataBase", function(req,res){
         if(requests[i].ip == ip){
             if(Date.now()-requests[i].last<1000){
                 requests[i].offenses++
-                console.log("log 2")
             }
             requests[i].last = Date.now()
             needPush = false;
         }
     }
     if(needPush == true){
-        console.log("log 3")
         requests.push({
             ip: ip,
             last: Date.now(),
@@ -145,6 +142,7 @@ app.post("/sendDataToDataBase", function(req,res){
         });
     }
     for(var i=1;i<requests.length;i++){
+        console.log(requests)
         if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
             blocked.push(ip)
             console.log("IP: "+ip+" has been blocked")
