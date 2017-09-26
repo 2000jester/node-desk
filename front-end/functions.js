@@ -146,9 +146,6 @@ function submitToDataBase(){
                 socket.on("enableSubmit",function(){
                     console.log("enabled")
                 });
-                /*$("html, body").animate({
-                    scrollTop: $("#staff_"+49).offset().top
-                }, 300);*/
             }
         });
     }
