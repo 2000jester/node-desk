@@ -151,6 +151,7 @@ app.post("/sendDataToDataBase", function(req,res){
         }
     }
     var stringToBeWritten = "";
+    blocked.splice(0,1)
     for(var i = 0;i<blocked.length;i++){
         stringToBeWritten = stringToBeWritten + blocked[i] + ","
     }
