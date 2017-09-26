@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 line();
 var connections = [];
 var blocked = [];
+var tempBlock = [];
 fs.readFile("blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
@@ -79,6 +80,9 @@ function validate(results, desks, uuid, req){
         }
     }
     if(blocked.indexOf(getIP(req)) >= 0){
+        return
+    }
+    if(tempBlock.indexOf(getIP(req)) >= 0){
         return
     }
     for(var i = 0;i<desks.length;i++){
@@ -132,8 +136,21 @@ app.post("/sendDataToDataBase", function(req,res){
     var needPush = true;
     for(var i=1;i<requests.length;i++){
         if(requests[i].ip == ip){
-            if(Date.now()-requests[i].last<1000){
+            if(requests[i].offenses > 4 && blocked.indexOf(requests[i].ip) == -1){
+                blocked.push(ip)
+                console.log("IP: "+ip+" has been blocked")
+                line();
+            }
+            if(Date.now()-requests[i].last<500){
+                requests[i].smallOffenses++
+            }
+            if(requests[i].smallOffenses > 5){
+                console.log("IP: "+ip+" has been banned for 3 minutes")
                 requests[i].offenses++
+                tempBlock.push(ip)
+                setTimeout(function(){
+                    tempBlock.splice(tempBlock.indexOf(ip),1)
+                }, 180000)//3 mins
             }
             requests[i].last = Date.now()
             needPush = false;
@@ -144,14 +161,8 @@ app.post("/sendDataToDataBase", function(req,res){
             ip: ip,
             last: Date.now(),
             offenses: 0,
+            smallOffenses: 0,
         });
-    }
-    for(var i=1;i<requests.length;i++){
-        if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
-            blocked.push(ip)
-            console.log("IP: "+ip+" has been blocked")
-            line();
-        }
     }
     var stringToBeWritten = "";
     for(var i = 0;i<blocked.length;i++){
