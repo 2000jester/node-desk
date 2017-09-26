@@ -73,9 +73,13 @@ function updateList(target){
     }
     drawList();
 }
-function validate(removeDisable){
-    if(removeDisable == true){
-        $("#submit").prop("disabled", false);
+function validate(removeDisable, target){
+    for(var i = 0;i<staff.length;i++){
+        if(staff[i].id == target.id){
+            if(staff[i].desk_id != target.value){
+                $("#submit").prop("disabled", false);
+            }
+        }
     }
     $('select').css('background', 'white');
     $('select').css('color', 'black');
@@ -158,6 +162,7 @@ function getDesks(){
         url: url+"/getDesks",
         method: "GET",
         success: function(res){
+            desks = []
             for(var currentDesk of res){
                 desks.push(currentDesk);
             }
@@ -170,6 +175,7 @@ function getStaff(){
         url: url+"/getStaff",
         method: "GET",
         success: function(res){
+            staff = []
             for(var currentStaff of res){
                 staff.push(currentStaff);
             }
@@ -185,6 +191,7 @@ function connect(){
             username: username,
         },
         success: function(res){
+            $("#submit").prop("disabled", true);
             uuid = res;
             console.log("Connected : "+username);
             console.log("UUID : "+uuid);
@@ -234,6 +241,6 @@ window.onbeforeunload = function(event){
 $(function(){
     $('body').on('change', 'select', function(event){
         updateList(event.target);
-        validate(true);
+        validate(true, event.target);
     });
 });
