@@ -134,7 +134,7 @@ function submitToDataBase(){
             url: url+"/sendDataToDataBase",
             method: "POST",
             data: {
-                values : valuesToSubmit,
+                values: valuesToSubmit,
                 uuid: uuid,
             },
             success: function(){

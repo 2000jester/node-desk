@@ -131,16 +131,10 @@ app.post("/sendDataToDataBase", function(req,res){
     var data = req.body
     var uuid = data.uuid;
     data = data.values;
-    getDesks(data,uuid, req);
     ip = getIP(req);
     var needPush = true;
     for(var i=1;i<requests.length;i++){
         if(requests[i].ip == ip && blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
-            if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
-                blocked.push(ip)
-                console.log("IP: "+ip+" has been blocked")
-                line();
-            }
             if(Date.now()-requests[i].last<500){
                 requests[i].smallOffenses++
             }
@@ -148,10 +142,26 @@ app.post("/sendDataToDataBase", function(req,res){
                 console.log("IP: "+ip+" has been banned for 3 minutes")
                 requests[i].offenses++
                 tempBlock.push(ip)
-                setTimeout(function(ip){
+                setTimeout(function(){
                     console.log("IP: "+ip+" has been allowed access")
                     tempBlock.splice(tempBlock.indexOf(ip),1)
                 }, 180000)//3 mins
+            }
+            if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
+                blocked.push(ip)
+                console.log("IP: "+ip+" has been blocked")
+                line();
+                var stringToBeWritten = "";
+                for(var i = 0;i<blocked.length;i++){
+                    console.log(blocked[i])
+                    stringToBeWritten = stringToBeWritten + blocked[i] + ","
+                    console.log(stringToBeWritten)
+                }
+                fs.writeFile("blocked.txt", stringToBeWritten, function(error){
+                    if(error){
+                        return console.log(error)
+                    }
+                })
             }
             requests[i].last = Date.now()
             needPush = false;
@@ -165,18 +175,9 @@ app.post("/sendDataToDataBase", function(req,res){
             smallOffenses: 0,
         });
     }
-    var stringToBeWritten = "";
-    for(var i = 0;i<blocked.length;i++){
-        console.log(blocked[i])
-        stringToBeWritten = stringToBeWritten + blocked[i] + ","
-        console.log(stringToBeWritten)
+    if(blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
+        getDesks(data,uuid, req);
     }
-    //_.trimEnd(stringToBeWritten,",");
-    fs.writeFile("blocked.txt", stringToBeWritten, function(error){
-        if(error){
-            return console.log(error)
-        }
-    })
     res.end();
 });
 app.post("/connect",function(req, res){
