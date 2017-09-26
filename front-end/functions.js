@@ -180,7 +180,6 @@ function getStaff(){
             for(var currentStaff of res){
                 staff.push(currentStaff);
             }
-            console.log("i got staff")
             getDesks();
         }
     });
@@ -223,7 +222,6 @@ function connect(){
                             $(".updated").hover(function(event){
                                 $("#"+event.currentTarget.id).removeClass("updated");
                             });
-                            getStaff();
                         }
                     });
                 }
