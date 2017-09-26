@@ -43,15 +43,15 @@ var blocked = [];
 fs.readFile("blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
-    }
-    console.log(data)
-    blocked = data.split(",")
-    if(blocked[0] != ""){
-        console.log("Blocked IPs")
-        for(var i = 0;i<blocked.length;i++){
-            console.log(blocked[i])
+    } else if(data.length > 0){
+        blocked = data.split(",")
+        if(blocked[0] != ""){
+            console.log("Blocked IPs")
+            for(var i = 0;i<blocked.length;i++){
+                console.log(blocked[i])
+            }
+            line();
         }
-        line();
     }
 });
 var requests = ["XXX"];
