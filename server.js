@@ -150,8 +150,11 @@ app.post("/sendDataToDataBase", function(req,res){
     for(var i = 0;i<blocked.length;i++){
         stringToBeWritten = stringToBeWritten + blocked[i] + ","
     }
+    var newStringToBeWritten = "";
     if(stringToBeWritten.length>0){
-        stringToBeWritten.splice(stringToBeWritten.length-1,1)
+        for(var i = 0; i<stringToBeWritten.length-1;i++){
+            newStringToBeWritten = newStringToBeWritten + stringToBeWritten[i]
+        }
     }
     fs.writeFile("blocked.txt", stringToBeWritten, function(error){
         if(error){
