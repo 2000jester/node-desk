@@ -119,6 +119,7 @@ function getDesks(desks,uuid, req){
     });
 };
 app.post("/sendDataToDataBase", function(req,res){
+    console.log("log")
     var data = req.body
     var uuid = data.uuid;
     data = data.values;
