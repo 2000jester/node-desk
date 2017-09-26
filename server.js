@@ -143,6 +143,7 @@ app.post("/sendDataToDataBase", function(req,res){
     }
     for(var i=1;i<requests.length;i++){
         console.log(requests)
+        console.log(blocked.indexOf(requests[i].ip))
         if(requests[i].offenses > 10 && blocked.indexOf(requests[i].ip) == -1){
             blocked.push(ip)
             console.log("IP: "+ip+" has been blocked")
