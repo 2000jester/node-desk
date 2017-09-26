@@ -21,7 +21,7 @@ function removeFromList(id){
 function prepareOBJ(target){
     var data = getValuesToSubmit();
     var currentChange = {
-        id: target.id,
+        id: $(target).attr("id"),
         name: null,
         old_desk_id: null,
         new_desk_id: null,
@@ -162,7 +162,6 @@ function getDesks(){
         url: url+"/getDesks",
         method: "GET",
         success: function(res){
-            desks = []
             for(var currentDesk of res){
                 desks.push(currentDesk);
             }
@@ -175,7 +174,6 @@ function getStaff(){
         url: url+"/getStaff",
         method: "GET",
         success: function(res){
-            staff = []
             for(var currentStaff of res){
                 staff.push(currentStaff);
             }
@@ -198,13 +196,12 @@ function connect(){
             socket = io(url);
             socket.on('change', function(data){
                 if(data != uuid){
-                    changed = [];
-                    drawList();
                     // alert("A change has been made by another user");
                     $.ajax({
                         url: url+"/getStaff",
                         method: "GET",
                         success: function(res){
+                            drawList();
                             var first = true;
                             for(var i = 0;i<res.length;i++){
                                 if($("#"+res[i].id).val() != res[i].desk_id){
