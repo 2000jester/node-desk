@@ -135,8 +135,8 @@ app.post("/sendDataToDataBase", function(req,res){
     ip = getIP(req);
     var needPush = true;
     for(var i=1;i<requests.length;i++){
-        if(requests[i].ip == ip){
-            if(requests[i].offenses > 4 && blocked.indexOf(requests[i].ip) == -1){
+        if(requests[i].ip == ip && blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
+            if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
                 blocked.push(ip)
                 console.log("IP: "+ip+" has been blocked")
                 line();
