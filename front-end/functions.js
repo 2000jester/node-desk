@@ -58,6 +58,7 @@ function updateList(target){
     if(changed.length > 0){
         if(_.findIndex(changed, {id: target.id}) > -1){
             if(obj.new_desk_id != obj.old_desk_id){
+                obj = prepareOBJ(target);
                 drawList();
                 return
             } else if(obj.new_desk_id == obj.old_desk_id){
