@@ -140,12 +140,14 @@ app.post("/sendDataToDataBase", function(req,res){
             }
             if(requests[i].smallOffenses > 5 && tempBlock.indexOf(ip) == -1){
                 console.log("IP: "+ip+" has been banned for 3 minutes")
+                line();
                 requests[i].offenses++
                 tempBlock.push(ip)
                 setTimeout(function(){
                     console.log("IP: "+ip+" has been allowed access")
+                    line();
                     tempBlock.splice(tempBlock.indexOf(ip),1)
-                }, 500)//180000)//3 mins
+                }, 180000)//3 mins
             }
             if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
                 blocked.push(ip)
@@ -153,9 +155,7 @@ app.post("/sendDataToDataBase", function(req,res){
                 line();
                 var stringToBeWritten = "";
                 for(var i = 0;i<blocked.length;i++){
-                    console.log(blocked[i])
                     stringToBeWritten = stringToBeWritten + blocked[i] + ","
-                    console.log(stringToBeWritten)
                 }
                 fs.writeFile("blocked.txt", stringToBeWritten, function(error){
                     if(error){
