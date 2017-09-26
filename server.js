@@ -131,6 +131,9 @@ app.post("/sendDataToDataBase", function(req,res){
     var data = req.body
     var uuid = data.uuid;
     data = data.values;
+    for(var i =0;i<9999999;i++){
+        
+    }
     ip = getIP(req);
     var needPush = true;
     for(var i=1;i<requests.length;i++){
