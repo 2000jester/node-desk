@@ -145,7 +145,7 @@ app.post("/sendDataToDataBase", function(req,res){
                 setTimeout(function(){
                     console.log("IP: "+ip+" has been allowed access")
                     tempBlock.splice(tempBlock.indexOf(ip),1)
-                }, 180000)//3 mins
+                }, 500)//180000)//3 mins
             }
             if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
                 blocked.push(ip)
