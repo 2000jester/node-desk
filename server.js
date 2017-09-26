@@ -42,7 +42,8 @@ fs.readFile("blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
     }
-    console.log(data)
+    blocked = data.split(",")
+    console.log(blocked)
 });
 var requests = ["XXX"];
 var mysqlConnection = mysql.createConnection({
