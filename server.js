@@ -115,7 +115,7 @@ function validate(results, desks, uuid, req){
             console.log(err)
         });
     console.log("i reached after promise")
-    io.emit("enableSumbit", "data");
+    io.emit("enableSubmit");
 };
 function getDesks(desks,uuid, req){
     mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
