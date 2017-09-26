@@ -153,6 +153,7 @@ function submitToDataBase(){
             success: function(){
                 changed = []
                 drawList()
+                getStaff();
                 socket.on("enableSubmit",function(){
                     $("#submit").prop("disabled", false);
                 });
@@ -165,6 +166,7 @@ function getDesks(){
         url: url+"/getDesks",
         method: "GET",
         success: function(res){
+            desks = [];
             for(var currentDesk of res){
                 desks.push(currentDesk);
             }
@@ -177,6 +179,7 @@ function getStaff(){
         url: url+"/getStaff",
         method: "GET",
         success: function(res){
+            staff = [];
             for(var currentStaff of res){
                 staff.push(currentStaff);
             }
@@ -210,7 +213,7 @@ function connect(){
                                 if($("#"+res[i].id).val() != res[i].desk_id){
                                     $("#"+res[i].id).val(res[i].desk_id);
                                     $("#staff_"+res[i].id).addClass("updated")
-                                    updateList({id:res[i].id}, false)
+                                    // updateList({id:res[i].id}, false)
                                     if(first == true){
                                         $("html, body").animate({
                                             scrollTop: $("#staff_"+res[i].id).offset().top
