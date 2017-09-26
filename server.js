@@ -44,6 +44,7 @@ fs.readFile("blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
     }
+    console.log(data)
     blocked = data.split(",")
     if(blocked[0] != ""){
         console.log("Blocked IPs")
