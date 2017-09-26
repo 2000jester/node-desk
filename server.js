@@ -10,24 +10,29 @@ function getIP(req){
     return ip
 }
 const app = require('express')();
-console.log('Express successful')
+//console.log('Express successful')
 const cors = require('cors');
-console.log('Cors successful')
+// console.log('Cors successful')
 const server = require('http').createServer(app);
-console.log('HTTP successful')
+// console.log('HTTP successful')
 const io = require('socket.io')(server);
-console.log('Socket.io successful')
+// console.log('Socket.io successful')
 const bodyParser = require('body-parser');
-console.log('Body-parser successful')
+// console.log('Body-parser successful')
 const uuid = require('uuid/v4');
-console.log('UUID/v4 successful')
+// console.log('UUID/v4 successful')
 const mysql = require('mysql');
-console.log('MYSQL successful')
+// console.log('MYSQL successful')
 const fs = require('fs');
-console.log('FS successful');
+// console.log('FS successful');
 const _ = require("lodash");
-console.log('Lodash successful');
+// console.log('Lodash successful');
+const blocked = require("blocked");
+console.log("Server Initialised Correctly");
 server.listen(3000);
+blocked(function(ms){
+    console.log('BLOCKED FOR %sms', ms | 0);
+});
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
