@@ -143,8 +143,8 @@ function submitToDataBase(){
             success: function(){
                 changed = []
                 drawList()
-                socket.on("enableSubmit",function(){
-                    console.log("enabled")
+                socket.on("enableSubmit",function(data){
+                    console.log("enabled"+data)
                 });
             }
         });
