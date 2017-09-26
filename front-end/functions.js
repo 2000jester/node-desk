@@ -141,7 +141,9 @@ function submitToDataBase(){
             success: function(){
                 changed = []
                 drawList()
-                $("#submit").removeAttr("disabled");
+                socket.on("enableSubmit",function(){
+                    $("#submit").removeAttr("disabled");
+                });
                 /*$("html, body").animate({
                     scrollTop: $("#staff_"+49).offset().top
                 }, 300);*/
