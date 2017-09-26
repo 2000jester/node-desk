@@ -128,6 +128,7 @@ function getValuesToSubmit(){
     return valuesToSubmit;
 }
 function submitToDataBase(){
+    $("#submit").attr("disabled", "disabled");
     var valuesToSubmit = getValuesToSubmit();
     if(validate()){
         $.ajax({
@@ -140,6 +141,7 @@ function submitToDataBase(){
             success: function(){
                 changed = []
                 drawList()
+                $("#submit").removeAttr("disabled");
                 /*$("html, body").animate({
                     scrollTop: $("#staff_"+49).offset().top
                 }, 300);*/
