@@ -203,6 +203,13 @@ app.get("/getStaff",function(req, res){
     });
 });
 app.get("/getDesks",function(req, res){
+
+    console.time('loop');
+    for(var i= 0; i< 99999999; i++ ) {
+        // we're doing nothing
+    }
+    console.timeEnd('loop');
+
     mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
         if(error){
             console.log(error)
