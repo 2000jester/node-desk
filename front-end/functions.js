@@ -207,6 +207,7 @@ function connect(){
                         url: url+"/getStaff",
                         method: "GET",
                         success: function(res){
+                            getStaff();
                             drawList();
                             var first = true;
                             for(var i = 0;i<res.length;i++){
