@@ -198,7 +198,7 @@ function connect(){
             socket = io(url);
             socket.on('change', function(data){
                 if(data != uuid){
-                    alert("A change has been made by another user");
+                    // alert("A change has been made by another user");
                     $.ajax({
                         url: url+"/getStaff",
                         method: "GET",
@@ -217,7 +217,6 @@ function connect(){
                                 }
                             }
                             $(".updated").hover(function(event){
-                                console.log(event.currentTarget.id)
                                 $("#"+event.currentTarget.id).removeClass("updated");
                             })
                         }
