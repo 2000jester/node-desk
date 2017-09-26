@@ -140,9 +140,9 @@ function submitToDataBase(){
             success: function(){
                 changed = []
                 drawList()
-                $("html, body").animate({
+                /*$("html, body").animate({
                     scrollTop: $("#staff_"+49).offset().top
-                }, 300);
+                }, 300);*/
             }
         });
     }
