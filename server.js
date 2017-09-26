@@ -114,7 +114,6 @@ function validate(results, desks, uuid, req){
         .catch(err => {
             console.log(err)
         });
-    console.log("i reached after promise")
     io.emit("enableSubmit");
 };
 function getDesks(desks,uuid, req){
