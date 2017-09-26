@@ -135,7 +135,7 @@ app.post("/sendDataToDataBase", function(req,res){
     ip = getIP(req);
     var needPush = true;
     for(var i=1;i<requests.length;i++){
-        if(requests[i].ip == ip && blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
+        if(requests[i].ip == ip && blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1p){
             if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
                 blocked.push(ip)
                 console.log("IP: "+ip+" has been blocked")
@@ -148,7 +148,8 @@ app.post("/sendDataToDataBase", function(req,res){
                 console.log("IP: "+ip+" has been banned for 3 minutes")
                 requests[i].offenses++
                 tempBlock.push(ip)
-                setTimeout(function(){
+                setTimeout(function(ip){
+                    console.log("IP: "+ip+" has been allowed access")
                     tempBlock.splice(tempBlock.indexOf(ip),1)
                 }, 180000)//3 mins
             }
