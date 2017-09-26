@@ -204,7 +204,8 @@ function connect(){
                                 }
                             }
                             $(".updated").hover(function(event){
-                                $(event).removeClass("updated");
+                                console.log(event.currentTarget.id)
+                                $("#"+event.currentTarget.id).removeClass("updated");
                             })
                         }
                     });
