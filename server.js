@@ -30,9 +30,7 @@ const _ = require("lodash");
 const blockednpm = require("blocked");
 console.log("Server Initialised Correctly");
 server.listen(3000);
-blockednpm(function(ms){
-    console.log('BLOCKED FOR %sms', ms | 0);
-});
+
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -216,4 +214,8 @@ app.get("/getDesks",function(req, res){
         res.send(results);
         res.end();
     });
+});
+
+blockednpm(function(ms){
+    console.log('BLOCKED FOR %sms', ms | 0);
 });
