@@ -144,7 +144,7 @@ app.post("/sendDataToDataBase", function(req,res){
             if(Date.now()-requests[i].last<500){
                 requests[i].smallOffenses++
             }
-            if(requests[i].smallOffenses > 5){
+            if(requests[i].smallOffenses > 5 && tempBlock.indexOf(ip) == -1){
                 console.log("IP: "+ip+" has been banned for 3 minutes")
                 requests[i].offenses++
                 tempBlock.push(ip)
