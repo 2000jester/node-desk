@@ -75,7 +75,7 @@ function updateList(target){
 }
 function validate(removeDisable, target){
     for(var i = 0;i<staff.length;i++){
-        if(staff[i].id == target.id){
+        if(staff[i].id == $(target).id()){
             if(staff[i].desk_id != target.value){
                 $("#submit").prop("disabled", false);
             }
