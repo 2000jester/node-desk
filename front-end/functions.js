@@ -203,8 +203,8 @@ function connect(){
                                     }
                                 }
                             }
-                            $(".updated").hover(function(){
-                                $(".updated").removeClass("updated");
+                            $(".updated").hover(function(event){
+                                $(event).removeClass("updated");
                             })
                         }
                     });
