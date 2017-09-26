@@ -53,7 +53,7 @@ function drawList(){
         $li.appendTo("#list")
     }
 }
-function updateList(target){
+function updateList(target, editChanged){
     var obj = prepareOBJ(target);
     if(changed.length > 0){
         if(_.findIndex(changed, {id: target.id}) > -1){
@@ -70,6 +70,9 @@ function updateList(target){
         }
     } else {
         addToList(obj)
+    }
+    if(editChanged == false){
+        removeFromList(obj.id)
     }
     drawList();
 }
@@ -207,6 +210,7 @@ function connect(){
                                 if($("#"+res[i].id).val() != res[i].desk_id){
                                     $("#"+res[i].id).val(res[i].desk_id);
                                     $("#staff_"+res[i].id).addClass("updated")
+                                    updateList({id:res[i].id}, false)
                                     if(first == true){
                                         $("html, body").animate({
                                             scrollTop: $("#staff_"+res[i].id).offset().top
