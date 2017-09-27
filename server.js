@@ -112,9 +112,9 @@ function submitToDataBase(valuesToSubmit, uuid){
     for(var i = 0; i<valuesToSubmit.length;i++){
         var myPromise = new Promise((resolve,reject) => {
             var sql = "UPDATE staff SET desk_id = ? WHERE id = ?";
+            console.log("test")
             var inserts = [valuesToSubmit[i].newDeskId, valuesToSubmit[i].staffId];
             sql = mysqlConnection.format(sql, inserts);
-            console.log(sql)
             mysqlConnection.query(sql, function(error,qResults,fields){
                 if(error){
                     reject(error); return;
