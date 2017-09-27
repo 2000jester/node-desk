@@ -5,7 +5,6 @@ var uuid = null;
 var desks = [];
 var staff = [];
 var changed = [];
-
 //FUNCTIONS
 function sortDesks(desksArray){
     return _.sortBy(desksArray, [function(o){return parseInt(o.desk_code.substring(5),10);}]);
