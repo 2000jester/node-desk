@@ -22,6 +22,12 @@ function removeFromChangedById(id, changedArray){
     return changedArray
 }
 function prepareObjForChanged(target, staffArray, deskArray){
+    /*console.log("target")
+    console.log(target)
+    console.log("staff")
+    console.log(staffArray)
+    console.log("desk")
+    console.log(deskArray)*/
     var selectData = getValuesToSubmit(staffArray);
     var obj = {
         id: $(target).attr("id"),
@@ -31,8 +37,8 @@ function prepareObjForChanged(target, staffArray, deskArray){
         oldDeskCode: null,
         newDeskCode: null,
     };
-    for(var i=0;i<staffArray;i++){
-        if(staffArray[i].id == $(target).attr("id")){
+    for(var i=0;i<staffArray.length;i++){
+        if(staffArray[i].id == obj.id){
             obj.oldDeskId = staffArray[i].deskId;
             obj.newDeskId = selectData[i].newDeskId;
             obj.name = staffArray[i].name;
