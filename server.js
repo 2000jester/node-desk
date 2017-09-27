@@ -88,6 +88,7 @@ app.get("/getStaff", function(req, res){
         }
         for(var i=0;i<results.length;i++){
             results[i].deskId = results[i].desk_id
+            delete results[i].desk_id
         }
         res.send(results);
         res.end();
@@ -104,6 +105,7 @@ app.get("/getDesks", function(req, res){
         }
         for(var i=0;i<results.length;i++){
             results[i].deskCode = results[i].desk_code
+            delete results[i].desk_code
         }
         res.send(results);
         res.end();

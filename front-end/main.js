@@ -125,6 +125,7 @@ function getStaff(){
                 for(var currentStaff of res){
                     tempStaffArray.push(currentStaff);
                 }
+                console.log(tempStaffArray)
                 resolve(tempStaffArray);
             }
         });
