@@ -10,8 +10,8 @@ function sortDesks(deskArray){
     return _.sortBy(deskArray, [function(o){return parseInt(o.deskCode.substring(5),10);}]);
 }
 function addToArray(obj, array){
-    console.log(array)
-    return array.push(obj);
+    array.push(obj);
+    return array
 }
 function removeFromChangedById(id, changedArray){
     for(var i=0;i<changedArray.length;i++){
@@ -56,7 +56,6 @@ function drawChangeList(changedArray){
         listClone.appendTo("#list");
     }
 }
-/*
 function updateList(target, changedArray, staffArray, deskArray){
     var obj = prepareObjForChanged(target, staffArray, deskArray);
     if(changedArray.length>0){
@@ -76,22 +75,22 @@ function updateList(target, changedArray, staffArray, deskArray){
     }
     return changedArray;
 }
-*/
-function updateList(target, changedArray, staffArray, deskArray){
+/*function updateList(target, changedArray, staffArray, deskArray){
     var obj = prepareObjForChanged(target, staffArray, deskArray);
-    //none in changed and the user hasnt clicked the original value
     if(changedArray.length < 1 && obj.newDeskId != obj.oldDeskId){
         changedArray = addToArray(obj, changedArray)
         return changedArray
     }
-    //one or mare in changed and the user hasnt clicked what is currently stored in changed for that staff
+    if(obj.newDeskId == obj.oldDeskId){
+        return;
+    }
     if(changedArray.length > 0 && changed[_.findIndex(changedArray,{id: $(target).attr("id")})].newDeskId != obj.newDeskId){
         changedArray = addToArray(obj, changedArray)
         return changedArray
     }
-    changedArray = addToArray(obj, changedArray)
+    changedArray = removeFromChangedById($(target).attr("id"))
     return changedArray
-}
+}*/
 function addDisableToButton(buttonId){
     $("#"+buttonId).prop("disabled", true);
 }
@@ -114,24 +113,27 @@ function validateSelectElementsOnSubmission(staffArray){
     return !checkForDupeSelectValues(staffArray)
 }
 function validateSelectElementsOnChange(target, staffArray){
+    tempVals = getValuesToSubmit(staffArray);
     for(var i=0;i<staffArray.length;i++){
         if(staffArray[i].id == $(target).attr("id")){
             if(staffArray[i].deskId != target.value){
                 removeDisableFromButton("submit");
                 $('select').css('background', 'white');
                 $('select').css('color', 'black');
-            } else {
-                return false;
             }
         }
     }
     if(checkForDupeSelectValues(staffArray)){
-        $("[value="+ selectData[j].newDeskId +"]:selected").closest('select').css('background', 'red');
-        $("[value="+ selectData[j].newDeskId +"]:selected").closest('select').css('color', 'white');
-        addDisableToButton("submit")
-        return false
+        addDisableToButton("submit");
+        for(var i=0;i<tempVals.length;i++){
+            for(var j=0;j<tempVals.length;j++){
+                if(tempVals[i].newDeskId == tempVals[j].newDeskId && i != j){
+                    $("[value="+ tempVals[j].newDeskId +"]:selected").closest('select').css('background', 'red');
+                    $("[value="+ tempVals[j].newDeskId +"]:selected").closest('select').css('color', 'white');
+                }
+            }
+        }
     }
-    return true;
 }
 function getStaff(){
     return new Promise((resolve, reject)=>{
@@ -274,6 +276,7 @@ window.onbeforeunload = function(event){
 $(function(){
     $("body").on("change", "select", function(event){
         changed = updateList(event.target, changed, staff, desks);
+        drawChangeList(changed);
         validateSelectElementsOnChange(event.target, staff);
     });
 });
