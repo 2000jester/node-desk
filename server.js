@@ -109,10 +109,10 @@ app.post("/sendDataToDataBase", function(req, res){
 });
 function submitToDataBase(valuesToSubmit, uuid){
     var promises = [];
-    for(var i = 0; i<valuesToSubmit.length;i++){
+    console.log(valuesToSubmit)
+    for(var i=0;i<valuesToSubmit.length;i++){
         var myPromise = new Promise((resolve,reject) => {
             var sql = "UPDATE staff SET desk_id = ? WHERE id = ?";
-            console.log("test")
             var inserts = [valuesToSubmit[i].newDeskId, valuesToSubmit[i].staffId];
             sql = mysqlConnection.format(sql, inserts);
             mysqlConnection.query(sql, function(error,qResults,fields){
