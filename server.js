@@ -89,7 +89,7 @@ app.get("/getStaff", function(req, res){
 app.get("/getDesks", function(req, res){
     prepareDesks().then(function(tempDesks){
         res.send(tempDesks);
-        sres.end();
+        res.end();
     });
 });
 app.post("/sendDataToDataBase", function(req, res){
