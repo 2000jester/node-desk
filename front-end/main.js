@@ -125,7 +125,7 @@ function getStaff(){
                 for(var currentStaff of res){
                     tempStaffArray.push(currentStaff);
                 }
-                staff = tempStaffArray;
+                resolve(tempStaffArray);
             }
         });
     }); 
@@ -209,7 +209,7 @@ function connect(){
             uuid = res;
             socket.on("change", function(res){
                 if(res != uuid){
-                    getStaff().then(function(){
+                    getStaff().then(function(resolve){
                         drawChangeList(changed);
                         var first = true;
                         var tempStaff = staff
