@@ -116,17 +116,19 @@ function validateSelectElementsOnChange(target, staffArray){
     return true;
 }
 function getStaff(){
-    $.ajax({
-        url: url+"/getStaff",
-        method: "GET",
-        success: function(res){
-            var tempStaffArray = [];
-            for(var currentStaff of res){
-                tempStaffArray.push(currentStaff);
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            url: url+"/getStaff",
+            method: "GET",
+            success: function(res){
+                var tempStaffArray = [];
+                for(var currentStaff of res){
+                    tempStaffArray.push(currentStaff);
+                }
+                staff = tempStaffArray;
             }
-            staff = tempStaffArray;
-        }
-    })
+        });
+    }); 
 }
 function getDesks(){
     $.ajax({
@@ -207,30 +209,32 @@ function connect(){
             uuid = res;
             socket.on("change", function(res){
                 if(res != uuid){
-                    getStaff();
-                    drawChangeList(changed);
-                    var first = true;
-                    var tempStaff = staff
-                    for(var i=0;i<tempStaff.length;i++){
-                        if($("#"+tempStaff[i].id).val() != tempStaff[i].deskId){
-                            $("#"+tempStaff[i].id).val(tempStaff[i].deskId);
-                            $("#staff_"+tempStaff[i].id).addClass("updated")
-                            // updateList({id:res[i].id}, false)
-                            if(first == true){
-                                $("html, body").animate({
-                                    scrollTop: $("#staff_"+tempStaff[i].id).offset().top
-                                }, 300);
-                                first = false;
+                    getStaff().then(function(){
+                        drawChangeList(changed);
+                        var first = true;
+                        var tempStaff = staff
+                        for(var i=0;i<tempStaff.length;i++){
+                            if($("#"+tempStaff[i].id).val() != tempStaff[i].deskId){
+                                $("#"+tempStaff[i].id).val(tempStaff[i].deskId);
+                                $("#staff_"+tempStaff[i].id).addClass("updated")
+                                // updateList({id:res[i].id}, false)
+                                if(first == true){
+                                    $("html, body").animate({
+                                        scrollTop: $("#staff_"+tempStaff[i].id).offset().top
+                                    }, 300);
+                                    first = false;
+                                }
                             }
                         }
-                    }
-                    $(".updated").hover(function(event){
-                        $("#"+event.currentTarget.id).removeClass("updated");
+                        $(".updated").hover(function(event){
+                            $("#"+event.currentTarget.id).removeClass("updated");
+                        });
                     });
                 }
             });
-            getStaff();
-            getDesks();
+            getStaff().then(function(){
+                getDesks();
+            });
         }
     });
 }
@@ -245,7 +249,7 @@ window.onbeforeunload = function(event){
 }
 $(function(){
     $("body").on("change", "select", function(event){
-        updateList(event.target, changed, staff, desks);
+        changed = updateList(event.target, changed, staff, desks);
         validateSelectElementsOnChange(event.target, staff);
     });
 });
