@@ -150,7 +150,7 @@ function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
     return true;
 }
 function prepareDesks(){
-    var promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
             if(error){
                 console.log(error)
