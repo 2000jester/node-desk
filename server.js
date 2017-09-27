@@ -105,6 +105,7 @@ app.post("/sendDataToDataBase", function(req, res){
             }
         });
     }
+    res.end();
 });
 function submitToDataBase(valuesToSubmit, uuid){
     var promises = [];
@@ -113,6 +114,7 @@ function submitToDataBase(valuesToSubmit, uuid){
             var sql = "UPDATE staff SET desk_id = ? WHERE id = ?";
             var inserts = [valuesToSubmit[i].newDeskId, valuesToSubmit[i].staffId];
             sql = mysqlConnection.format(sql, inserts);
+            console.log(sql)
             mysqlConnection.query(sql, function(error,qResults,fields){
                 if(error){
                     reject(error); return;
