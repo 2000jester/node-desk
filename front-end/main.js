@@ -7,7 +7,7 @@ var staff = [];
 var changed = [];
 //FUNCTIONS
 function sortDesks(desksArray){
-    return _.sortBy(desksArray, [function(o){return parseInt(o.desk_code.substring(5),10);}]);
+    return _.sortBy(desksArray, [function(o){return parseInt(o.deskCode.substring(5),10);}]);
 }
 function addToArray(obj, array){
     return array.push(obj);
@@ -125,28 +125,28 @@ function getStaff(){
                 for(var currentStaff of res){
                     tempStaffArray.push(currentStaff);
                 }
-                console.log(tempStaffArray)
                 resolve(tempStaffArray);
             }
         });
     }); 
 }
 function getDesks(){
-    $.ajax({
-        url: url+"/getDesks",
-        method: "GET",
-        success: function(res){
-            var tempDesksArray = [];
-            for(var currentDesk of res){
-                tempDesksArray.push(currentDesk);
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            url: url+"/getDesks",
+            method: "GET",
+            success: function(res){
+                var tempDesksArray = [];
+                for(var currentDesk of res){
+                    tempDesksArray.push(currentDesk);
+                }
+                resolve(tempDesksArray);
             }
-            desks = tempDesksArray;
-        }
-    })
+        })
+    });
 }
 function displayToTable(staffArray, deskArray){
     $("tr[id^=staff_]").remove();
-    desks = sortDesks(desks);
     for(var currentStaff of staffArray) {
         var $element = $('#row-template').clone();
         $element.find('.name').html(currentStaff.name);
@@ -210,7 +210,8 @@ function connect(){
             uuid = res;
             socket.on("change", function(res){
                 if(res != uuid){
-                    getStaff().then(function(resolve){
+                    getStaff().then(function(staffResolve){
+                        staff = staffResolve;
                         drawChangeList(changed);
                         var first = true;
                         var tempStaff = staff
@@ -233,8 +234,13 @@ function connect(){
                     });
                 }
             });
-            getStaff().then(function(){
-                getDesks();
+            staff = getStaff().then(function(staffResolve){
+                staff = staffResolve;
+                desks = getDesks().then(function(deskResolve){
+                    desks = deskResolve;
+                    desks = sortDesks(desks);
+                    displayToTable(staff, desks)
+                });
             });
         }
     });
