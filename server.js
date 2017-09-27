@@ -135,6 +135,7 @@ function submitToDataBase(valuesToSubmit, uuid){
 function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
     for(var i=0;i<valuesToSubmit.length;i++){
         if(referenceValues.indexOf(parseInt(valuesToSubmit[i].newDeskId)) == -1){
+            console.log(referenceValues)
             console.log("value doesnt exist")
             return false;
         }
