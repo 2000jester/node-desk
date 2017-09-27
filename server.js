@@ -163,7 +163,7 @@ function prepareDesks(){
                 results[i].deskCode = results[i].desk_code
                 delete results[i].desk_code
             }
-            return results
+            resolve(results);
         });
     })
 }
