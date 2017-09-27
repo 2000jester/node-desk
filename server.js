@@ -144,9 +144,8 @@ function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
     if(blocked.indexOf(ip) > -1 || tempBlock.indexOf(ip) > -1){
         return false;
     }
-    console.log(valuesToSubmit)
     for(var i=0;i<valuesToSubmit.length;i++){
-        for(var j=0;j<valuesToSubmit.length;i++){
+        for(var j=0;j<valuesToSubmit.length;j++){
             if(i != j && valuesToSubmit[i].newDeskId == valuesToSubmit[j].newDeskId){
                 return false;
             }
