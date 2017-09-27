@@ -135,15 +135,18 @@ function submitToDataBase(valuesToSubmit, uuid){
 function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
     for(var i=0;i<valuesToSubmit.length;i++){
         if(referenceValues.indexOf(parseInt(valuesToSubmit[i].newDeskId)) == -1){
+            console.log("value doesnt exist")
             return false;
         }
     }
     if(blocked.indexOf(ip) > -1 || tempBlock.indexOf(ip) > -1){
+        console.log("blocked")
         return false;
     }
     for(var i=0;i<valuesToSubmit.length;i++){
         for(var j=0;j<valuesToSubmit.length;i++){
             if(i != j && valuesToSubmit[i].newDeskId == valuesToSubmit[j].newDeskId){
+                console.log("over lapping values")
                 return false;
             }
         }
