@@ -124,7 +124,7 @@ function getStaff(){
             for(var currentStaff of res){
                 tempStaffArray.push(currentStaff);
             }
-            return tempStaffArray;
+            staff = tempStaffArray;
         }
     })
 }
@@ -137,7 +137,7 @@ function getDesks(){
             for(var currentDesk of res){
                 tempDesksArray.push(currentDesk);
             }
-            return tempDesksArray;
+            desks = tempDesksArray;
         }
     })
 }
@@ -190,7 +190,7 @@ function submitToDataBase(staffArray){
             success: function(){
                 changed = [];
                 drawChangeList(changed);
-                staff = getStaff();
+                getStaff();
                 socket.on("enableSubmit", function(){
                     removeDisableFromButton("submit");
                 });
@@ -207,10 +207,10 @@ function connect(){
             uuid = res;
             socket.on("change", function(res){
                 if(res != uuid){
-                    staff = getStaff();
+                    getStaff();
                     drawChangeList(changed);
                     var first = true;
-                    var tempStaff = getStaff();
+                    var tempStaff = staff
                     for(var i=0;i<tempStaff.length;i++){
                         if($("#"+tempStaff[i].id).val() != tempStaff[i].deskId){
                             $("#"+tempStaff[i].id).val(tempStaff[i].deskId);
@@ -229,7 +229,8 @@ function connect(){
                     });
                 }
             });
-            staff = getStaff();
+            getStaff();
+            getDesks();
         }
     });
 }
