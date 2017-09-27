@@ -87,7 +87,7 @@ app.get("/getStaff", function(req, res){
     });
 });
 app.get("/getDesks", function(req, res){
-    tempDesks = prepareDesks();
+    prepareDesks.();
     res.send(tempDesks);
     res.end();
 });
@@ -98,10 +98,11 @@ app.post("/sendDataToDataBase", function(req, res){
     var ip = getIP(req);
     checkBlock(ip);
     if(blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
-        tempDesks = prepareDesks();
-        if(validateBeforeSubmission(tempDesks, dataToBeSent, ip)){
-            submitToDataBase(dataToBeSent, uuid);
-        }
+        prepareDesks().then(function(tempDesks){
+            if(validateBeforeSubmission(tempDesks, dataToBeSent, ip)){
+                submitToDataBase(dataToBeSent, uuid);
+            }
+        });
     }
 });
 function submitToDataBase(valuesToSubmit, uuid){
@@ -148,20 +149,22 @@ function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
     return true;
 }
 function prepareDesks(){
-    mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
-        if(error){
-            console.log(error)
-            res.status(404);
-            res.send(error);
-            res.end();
-            return;
-        }
-        for(var i=0;i<results.length;i++){
-            results[i].deskCode = results[i].desk_code
-            delete results[i].desk_code
-        }
-        return results
-    });
+    var promise = new Promise((resolve, reject) => {
+        mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
+            if(error){
+                console.log(error)
+                res.status(404);
+                res.send(error);
+                res.end();
+                return;
+            }
+            for(var i=0;i<results.length;i++){
+                results[i].deskCode = results[i].desk_code
+                delete results[i].desk_code
+            }
+            return results
+        });
+    })
 }
 function checkBlock(ip){
     var needPush = true;
