@@ -135,7 +135,7 @@ function submitToDataBase(valuesToSubmit, uuid){
 }
 function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
     for(var i=0;i<valuesToSubmit.length;i++){
-        if(referenceValues.indexOf(parseInt(desks[i].newDeskId)) == -1){
+        if(referenceValues.indexOf(parseInt(valuesToSubmit[i].newDeskId)) == -1){
             return false;
         }
     }

@@ -6,8 +6,8 @@ var desks = [];
 var staff = [];
 var changed = [];
 //FUNCTIONS
-function sortDesks(desksArray){
-    return _.sortBy(desksArray, [function(o){return parseInt(o.deskCode.substring(5),10);}]);
+function sortDesks(deskArray){
+    return _.sortBy(deskArray, [function(o){return parseInt(o.deskCode.substring(5),10);}]);
 }
 function addToArray(obj, array){
     return array.push(obj);
@@ -93,7 +93,7 @@ function checkForDupeSelectValues(staffArray){
     return false;
 }
 function validateSelectElementsOnSubmission(staffArray){
-    return !checkForDupeSelectValues()
+    return !checkForDupeSelectValues(staffArray)
 }
 function validateSelectElementsOnChange(target, staffArray){
     for(var i=0;i<staffArray.length;i++){
@@ -179,10 +179,10 @@ function getValuesToSubmit(staffArray){
     }
     return tempValues;
 }
-function submitToDataBase(staffArray){
+function submitToDataBase(){
     addDisableToButton("submit");
-    var valuesToSubmit = getValuesToSubmit(staffArray);
-    if(validateSelectElementsOnSubmission(staffArray)){
+    var valuesToSubmit = getValuesToSubmit(staff);
+    if(validateSelectElementsOnSubmission(staff)){
         $.ajax({
             url: url+"/sendDataToDataBase",
             method: "POST",
@@ -219,7 +219,6 @@ function connect(){
                             if($("#"+tempStaff[i].id).val() != tempStaff[i].deskId){
                                 $("#"+tempStaff[i].id).val(tempStaff[i].deskId);
                                 $("#staff_"+tempStaff[i].id).addClass("updated")
-                                // updateList({id:res[i].id}, false)
                                 if(first == true){
                                     $("html, body").animate({
                                         scrollTop: $("#staff_"+tempStaff[i].id).offset().top
