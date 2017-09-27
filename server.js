@@ -99,7 +99,8 @@ app.post("/sendDataToDataBase", function(req, res){
     var ip = getIP(req);
     checkBlock(ip);
     if(blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
-        prepareDesks().then(function(tempDesks){
+        prepareDesks().then(function(res){
+            tempDesks = res;
             if(validateBeforeSubmission(tempDesks, dataToBeSent, ip)){
                 submitToDataBase(dataToBeSent, uuid);
             }
