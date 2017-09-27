@@ -10,6 +10,7 @@ function sortDesks(deskArray){
     return _.sortBy(deskArray, [function(o){return parseInt(o.deskCode.substring(5),10);}]);
 }
 function addToArray(obj, array){
+    console.log(array)
     return array.push(obj);
 }
 function removeFromChangedById(id, changedArray){
@@ -55,6 +56,7 @@ function drawChangeList(changedArray){
         listClone.appendTo("#list");
     }
 }
+/*
 function updateList(target, changedArray, staffArray, deskArray){
     var obj = prepareObjForChanged(target, staffArray, deskArray);
     if(changedArray.length>0){
@@ -73,6 +75,22 @@ function updateList(target, changedArray, staffArray, deskArray){
         changedArray = addToArray(obj, changedArray);
     }
     return changedArray;
+}
+*/
+function updateList(target, changedArray, staffArray, deskArray){
+    var obj = prepareObjForChanged(target, staffArray, deskArray);
+    //none in changed and the user hasnt clicked the original value
+    if(changedArray.length < 1 && obj.newDeskId != obj.oldDeskId){
+        changedArray = addToArray(obj, changedArray)
+        return changedArray
+    }
+    //one or mare in changed and the user hasnt clicked what is currently stored in changed for that staff
+    if(changedArray.length > 0 && changed[_.findIndex(changedArray,{id: $(target).attr("id")})].newDeskId != obj.newDeskId){
+        changedArray = addToArray(obj, changedArray)
+        return changedArray
+    }
+    changedArray = addToArray(obj, changedArray)
+    return changedArray
 }
 function addDisableToButton(buttonId){
     $("#"+buttonId).prop("disabled", true);
