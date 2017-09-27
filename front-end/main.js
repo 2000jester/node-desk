@@ -93,11 +93,7 @@ function checkForDupeSelectValues(staffArray){
     return false;
 }
 function validateSelectElementsOnSubmission(staffArray){
-    if(!checkForDupeSelectValues){
-        return true;
-    } else {
-        return false;
-    }
+    return !checkForDupeSelectValues()
 }
 function validateSelectElementsOnChange(target, staffArray){
     for(var i=0;i<staffArray.length;i++){
