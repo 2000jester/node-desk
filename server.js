@@ -2,13 +2,6 @@ function line(){
     console.log("------------------------------------------------------------------");
 }
 line();
-function getIP(req){
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    ip = ip.split("");
-    ip.splice(0,7);
-    ip = ip.join("");
-    return ip
-}
 const app = require('express')();
 const cors = require('cors');
 const server = require('http').createServer(app);
@@ -59,7 +52,6 @@ var mysqlConnection = mysql.createConnection({
     password    : "admin",
     database    : "desk",
 });
-
 app.get("/connect", function(req,res){
     tempUUID = uuid();
     connections.push({
@@ -95,6 +87,67 @@ app.get("/getStaff", function(req, res){
     });
 });
 app.get("/getDesks", function(req, res){
+    tempDesks = prepareDesks();
+    res.send(tempDesks);
+    res.end();
+});
+app.post("/sendDataToDataBase", function(req, res){
+    var dataToBeSent = req.body;
+    var uuid = dataToBeSent.uuid;
+    dataToBeSent = dataToBeSent.values;
+    var ip = getIP(req);
+    checkBlock(ip);
+    if(blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
+        tempDesks = prepareDesks();
+        if(validateBeforeSubmission(tempDesks, dataToBeSent, ip)){
+            submitToDataBase(dataToBeSent, uuid);
+        }
+    }
+});
+function submitToDataBase(valuesToSubmit, uuid){
+    var promises = [];
+    for(var i = 0; i<valuesToSubmit.length;i++){
+        var myPromise = new Promise((resolve,reject) => {
+            var sql = "UPDATE staff SET desk_id = ? WHERE id = ?";
+            var inserts = [valuesToSubmit[i].newDeskId, valuesToSubmit[i].staffId];
+            sql = mysqlConnection.format(sql, inserts);
+            mysqlConnection.query(sql, function(error,qResults,fields){
+                if(error){
+                    reject(error); return;
+                }
+                resolve(qResults);
+            });
+        });
+        promises.push(myPromise);
+    }
+    Promise.all(promises)
+        .then(qResults => {
+            io.emit('change', uuid);
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    io.emit("enableSubmit");
+}
+function validateBeforeSubmission(referenceValues, valuesToSubmit, ip){
+    for(var i=0;i<valuesToSubmit.length;i++){
+        if(referenceValues.indexOf(parseInt(desks[i].newDeskId)) == -1){
+            return false;
+        }
+    }
+    if(blocked.indexOf(ip) > -1 || tempBlock.indexOf(ip) > -1){
+        return false;
+    }
+    for(var i=0;i<valuesToSubmit.length;i++){
+        for(var j=0;j<valuesToSubmit.length;i++){
+            if(i != j && valuesToSubmit[i].newDeskId == valuesToSubmit[j].newDeskId){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+function prepareDesks(){
     mysqlConnection.query("SELECT d.id, d.desk_code FROM desks d", function(error,results,fields){
         if(error){
             console.log(error)
@@ -107,7 +160,58 @@ app.get("/getDesks", function(req, res){
             results[i].deskCode = results[i].desk_code
             delete results[i].desk_code
         }
-        res.send(results);
-        res.end();
+        return results
     });
-});
+}
+function checkBlock(ip){
+    var needPush = true;
+    for(var i=0;i<requests.length;i++){
+        if(requests[i].ip == ip && blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
+            if(Date.now() - requests[i].last<500){
+                requests[i].smallOffenses++;
+            }
+            if(requests[i].smallOffenses > 4 && tempBlock.indexOf(ip) == -1){
+                console.log("IP: "+ip+" has been banned for 3 minutes")
+                line();
+                requests[i].offenses++
+                tempBlock.push(ip)
+                setTimeout(function(){
+                    console.log("IP: "+ip+" has been allowed access")
+                    line();
+                    tempBlock.splice(tempBlock.indexOf(ip),1)
+                }, 180000)//3 mins
+            }
+            if(requests[i].offenses > 4 && blocked.indexOf(ip) == -1){
+                blocked.push(ip)
+                console.log("IP: "+ip+" has been blocked")
+                line();
+                var stringToBeWritten = "";
+                for(var i = 0;i<blocked.length;i++){
+                    stringToBeWritten = stringToBeWritten + blocked[i] + ","
+                }
+                fs.writeFile("blocked.txt", stringToBeWritten, function(error){
+                    if(error){
+                        return console.log(error)
+                    }
+                })
+            }
+            requests[i].last = Date.now()
+            needPush = false;
+        }
+    }
+    if(needPush == true){
+        requests.push({
+            ip: ip,
+            last: Date.now(),
+            offenses: 0,
+            smallOffenses: 0,
+        });
+    }
+};
+function getIP(req){
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    ip = ip.split("");
+    ip.splice(0,7);
+    ip = ip.join("");
+    return ip
+};
