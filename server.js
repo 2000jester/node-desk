@@ -86,6 +86,9 @@ app.get("/getStaff", function(req, res){
             res.end();
             return;
         }
+        for(var i=0;i<results.length;i++){
+            results[i].deskId = results[i].desk_id
+        }
         // res.send(results);
         console.log(results);
         res.end();
