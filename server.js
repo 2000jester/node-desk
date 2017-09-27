@@ -99,9 +99,8 @@ app.post("/sendDataToDataBase", function(req, res){
     var ip = getIP(req);
     checkBlock(ip);
     if(blocked.indexOf(ip) == -1 && tempBlock.indexOf(ip) == -1){
-        prepareDesks().then(function(res){
-            tempDesks = res;
-            if(validateBeforeSubmission(tempDesks, dataToBeSent, ip)){
+        prepareDesks().then(function(tempDesks){
+            if(true=true){//validateBeforeSubmission(tempDesks, dataToBeSent, ip)){
                 submitToDataBase(dataToBeSent, uuid);
             }
         });
@@ -110,7 +109,6 @@ app.post("/sendDataToDataBase", function(req, res){
 });
 function submitToDataBase(valuesToSubmit, uuid){
     var promises = [];
-    console.log(valuesToSubmit)
     for(var i=0;i<valuesToSubmit.length;i++){
         var myPromise = new Promise((resolve,reject) => {
             var sql = "UPDATE staff SET desk_id = ? WHERE id = ?";
