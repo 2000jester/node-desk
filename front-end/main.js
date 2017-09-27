@@ -1,11 +1,9 @@
-//VARIABLES
 var url = 'http://192.168.0.157:3000'
 var socket = io(url);
 var uuid = null;
 var desks = [];
 var staff = [];
 var changed = [];
-//FUNCTIONS
 function sortDesks(deskArray){
     return _.sortBy(deskArray, [function(o){return parseInt(o.deskCode.substring(5),10);}]);
 }
@@ -22,12 +20,6 @@ function removeFromChangedById(id, changedArray){
     return changedArray
 }
 function prepareObjForChanged(target, staffArray, deskArray){
-    /*console.log("target")
-    console.log(target)
-    console.log("staff")
-    console.log(staffArray)
-    console.log("desk")
-    console.log(deskArray)*/
     var selectData = getValuesToSubmit(staffArray);
     var obj = {
         id: $(target).attr("id"),
