@@ -46,6 +46,14 @@ fs.readFile("data/blocked.txt", "utf8",function(error,data){
         }
     }
 });
+fs.readFile("data/dataBaseDetails.txt", "utf8",function(error,data){
+    if(error){
+        return console.log(error);
+    } else {
+        var dataBaseDetails = JSON.parse(data);
+    }
+});
+console.log(dataBaseDetails);
 var mysqlConnection = mysql.createConnection({
     host        : "localhost",
     user        : "admin",
