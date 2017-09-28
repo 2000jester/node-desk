@@ -96,6 +96,7 @@ function validateSelectElementsOnSubmission(staffArray){
 }
 function validateSelectElementsOnChange(target, staffArray){
     tempVals = getValuesToSubmit(staffArray);
+    console.log(tempVals)
     for(var i=0;i<staffArray.length;i++){
         if(staffArray[i].id == $(target).attr("id")){
             if(staffArray[i].deskId != target.value){
@@ -140,12 +141,13 @@ function takeUserToConflict(conflict){
 function revertChange(staffArray, target){
     var tempOldDeskId = null;
     for(var i=0;i<staffArray.length;i++){
-        console.log(staffArray[i])
-        if(staffArray[i].staffId == target){
-            tempOldDeskId = staffArray[i].oldDeskId;
+        if(staffArray[i].id == target){
+            tempOldDeskId = staffArray[i].deskId;
+            $("select").trigger("changeFromCode", $("#"+target));
+            changed = [];
+            drawChangeList(changed);
         }
     }
-    console.log(tempOldDeskId)
     $("#"+target).val(tempOldDeskId);
 }
 function disableSelects(exceptions){
@@ -293,12 +295,17 @@ window.onbeforeunload = function(event){
     });
 }
 $(function(){
+    $("select").on("changeFromCode", function(event){
+        changed = updateList(event, changed, staff, desks);
+        drawChangeList(changed);
+        validateSelectElementsOnChange(event, staff);
+    });
     $("body").on("change", "select", function(event){
         changed = updateList(event.target, changed, staff, desks);
         drawChangeList(changed);
         validateSelectElementsOnChange(event.target, staff);
     });
     $("body").on("click", "#revert", function(e){
-        revertChange(parseInt(staff, $(e.target).data("staffid")));
+        revertChange(staff, parseInt($(e.target).data("staffid")));
     });
 });
