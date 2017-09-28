@@ -73,22 +73,6 @@ function updateList(target, changedArray, staffArray, deskArray){
     }
     return changedArray;
 }
-/*function updateList(target, changedArray, staffArray, deskArray){
-    var obj = prepareObjForChanged(target, staffArray, deskArray);
-    if(changedArray.length < 1 && obj.newDeskId != obj.oldDeskId){
-        changedArray = addToArray(obj, changedArray)
-        return changedArray
-    }
-    if(obj.newDeskId == obj.oldDeskId){
-        return;
-    }
-    if(changedArray.length > 0 && changed[_.findIndex(changedArray,{id: $(target).attr("id")})].newDeskId != obj.newDeskId){
-        changedArray = addToArray(obj, changedArray)
-        return changedArray
-    }
-    changedArray = removeFromChangedById($(target).attr("id"))
-    return changedArray
-}*/
 function addDisableToButton(buttonId){
     $("#"+buttonId).prop("disabled", true);
 }
@@ -138,15 +122,31 @@ function validateSelectElementsOnChange(target, staffArray){
                         disableSelects([parseInt(targetId),parseInt(tempVals[j].staffId)]);
                         canDisable = false;
                     }
-                    /*if(tempVals[i].staffId == targetId){
-                        $("#staff_"+target.id+" td.errors").html("Conflicts with Id: "+tempVals[j].staffId);
+                    if(tempVals[i].staffId == targetId){
+                        $("#staff_"+target.id+" td.errors").html("Conflicts with Id: "+tempVals[j].staffId+"<button data-staffid="+targetId+" id=\"revert\">Revert</button><button onClick=\"takeUserToConflict(tempVals["+j+"]);\" id=\"takeTo\">To Conflict</button>");
                     } else if(tempVals[j].staffId == targetId){
-                        $("#staff_"+target.id+" td.errors").html("Conflicts with Id: "+tempVals[i].staffId);
-                    }*/
+                        $("#staff_"+target.id+" td.errors").html("Conflicts with Id: "+tempVals[i].staffId+"<button data-staffid="+targetId+" id=\"revert\">Revert</button><button onClick=\"takeUserToConflict(tempVals["+i+"]);\" id=\"takeTo\">To Conflict</button>");
+                    }
                 }
             }
         }
     }
+}
+function takeUserToConflict(conflict){
+    $("html, body").animate({
+        scrollTop: $("#staff_"+conflict.staffId).offset().top
+    }, 500);
+}
+function revertChange(staffArray, target){
+    var tempOldDeskId = null;
+    for(var i=0;i<staffArray.length;i++){
+        console.log(staffArray[i])
+        if(staffArray[i].staffId == target){
+            tempOldDeskId = staffArray[i].oldDeskId;
+        }
+    }
+    console.log(tempOldDeskId)
+    $("#"+target).val(tempOldDeskId);
 }
 function disableSelects(exceptions){
     $("select").prop("disabled",true);
@@ -297,5 +297,8 @@ $(function(){
         changed = updateList(event.target, changed, staff, desks);
         drawChangeList(changed);
         validateSelectElementsOnChange(event.target, staff);
+    });
+    $("body").on("click", "#revert", function(e){
+        revertChange(parseInt(staff, $(e.target).data("staffid")));
     });
 });
