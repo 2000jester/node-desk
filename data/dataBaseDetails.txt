@@ -1,6 +1,6 @@
 "{
-  host : "localhost",
-  user : "admin",
-  password : "admin",
-  database : "desk",
+  "host" : "'localhost'",
+  "user" : "'admin'",
+  "password" : "'admin'",
+  "database" : "'desk'",
 }"
