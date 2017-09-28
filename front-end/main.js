@@ -116,21 +116,42 @@ function validateSelectElementsOnChange(target, staffArray){
         if(staffArray[i].id == $(target).attr("id")){
             if(staffArray[i].deskId != target.value){
                 removeDisableFromButton("submit");
-                $('select').css('background', 'white');
-                $('select').css('color', 'black');
+                
             }
         }
     }
+    $("select").prop("disabled", false);
+    $('select').css('background', 'white');
+    $('select').css('color', 'black');
+    $("td.errors").html("");
+    var needsDisable = false;
+    var targetId = $(target).attr("id");
     if(checkForDupeSelectValues(staffArray)){
         addDisableToButton("submit");
+        canDisable = true;
         for(var i=0;i<tempVals.length;i++){
             for(var j=0;j<tempVals.length;j++){
                 if(tempVals[i].newDeskId == tempVals[j].newDeskId && i != j){
                     $("[value="+ tempVals[j].newDeskId +"]:selected").closest('select').css('background', 'red');
                     $("[value="+ tempVals[j].newDeskId +"]:selected").closest('select').css('color', 'white');
+                    if(canDisable == true){
+                        disableSelects([parseInt(targetId),parseInt(tempVals[j].staffId)]);
+                        canDisable = false;
+                    }
+                    /*if(tempVals[i].staffId == targetId){
+                        $("#staff_"+target.id+" td.errors").html("Conflicts with Id: "+tempVals[j].staffId);
+                    } else if(tempVals[j].staffId == targetId){
+                        $("#staff_"+target.id+" td.errors").html("Conflicts with Id: "+tempVals[i].staffId);
+                    }*/
                 }
             }
         }
+    }
+}
+function disableSelects(exceptions){
+    $("select").prop("disabled",true);
+    for(var i=0;i<exceptions.length;i++){
+        $("#"+exceptions[i]).prop("disabled", false);
     }
 }
 function getStaff(){
