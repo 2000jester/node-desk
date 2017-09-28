@@ -24,9 +24,9 @@ app.use(function (req, res, next) {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-blockednpm(function(ms){
-    console.log('BLOCKED FOR %sms', ms | 0);
-});
+// blockednpm(function(ms){
+    // console.log('BLOCKED FOR %sms', ms | 0);
+// });
 var connections = [];
 var blocked = [];
 var tempBlock = [];
