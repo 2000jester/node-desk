@@ -32,6 +32,7 @@ var blocked = [];
 var tempBlock = [];
 var requests = [];
 var dataBaseDetails = null;
+var mysqlConnection = null;
 fs.readFile("data/blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
@@ -52,14 +53,8 @@ fs.readFile("data/dataBaseDetails.txt", "utf8",function(error,data){
         return console.log(error);
     } else {
         dataBaseDetails = JSON.parse(data);
+        mysqlConnection = mysql.createConnection(dataBaseDetails);
     }
-});
-console.log(dataBaseDetails);
-var mysqlConnection = mysql.createConnection({
-    host        : "localhost",
-    user        : "admin",
-    password    : "admin",
-    database    : "desk",
 });
 app.get("/connect", function(req,res){
     tempUUID = uuid();
