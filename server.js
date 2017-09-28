@@ -31,6 +31,7 @@ var connections = [];
 var blocked = [];
 var tempBlock = [];
 var requests = [];
+var dataBaseDetails = null;
 fs.readFile("data/blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
@@ -50,7 +51,7 @@ fs.readFile("data/dataBaseDetails.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
     } else {
-        var dataBaseDetails = JSON.parse(data);
+        dataBaseDetails = JSON.parse(data);
     }
 });
 console.log(dataBaseDetails);
