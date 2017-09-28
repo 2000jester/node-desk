@@ -31,7 +31,7 @@ var connections = [];
 var blocked = [];
 var tempBlock = [];
 var requests = [];
-fs.readFile("blocked.txt", "utf8",function(error,data){
+fs.readFile("data/blocked.txt", "utf8",function(error,data){
     if(error){
         return console.log(error);
     } else if(data.length > 0){
@@ -197,7 +197,7 @@ function checkBlock(ip){
                 for(var i = 0;i<blocked.length;i++){
                     stringToBeWritten = stringToBeWritten + blocked[i] + ","
                 }
-                fs.writeFile("blocked.txt", stringToBeWritten, function(error){
+                fs.writeFile("data/blocked.txt", stringToBeWritten, function(error){
                     if(error){
                         return console.log(error)
                     }
